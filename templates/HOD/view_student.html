@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Students</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Students</li>
+             </ul>
+          </div>
+       </div>
+    </div>
+    {% comment %} {% include "includes/messages.html" %}   {% endcomment %}
+    <div class="row">
+       <div class="col-sm-12">
+          <div class="card card-table">
+             <div class="card-body">
+                <div class="table-responsive">
+                   <table id="" class="table table-hover table-center mb-0">
+                      <thead>
+                         <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>Session_Year</th>
+                            {% comment %} <th>Created_at</th>
+                            <th>Updated_at</th> {% endcomment %}
+                            <th class="text-right">Action</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in page.object_list %}
+                         <tr>
+                            <td>{{i.id}}</td>
+                            <td>
+                               <h2 class="table-avatar">
+                                  {% if i.admin.profile_pic == "" %}
+                                  <a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{% static "assets/img/No_image.jpg" %}" alt="user Image"></a>
+                                  {% else %}
+                                  <a class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="/{{i.admin.profile_pic}}" alt="user Image"></a>
+                                  {% endif %}
+                                  <a >{{i.admin.first_name}}&nbsp;{{i.admin.last_name}}</a>
+                               </h2>
+                            </td>
+                            <td>{{i.admin.email}}</td>
+                            <td>{{i.course_id.name}}</td>
+                            <td>{{i.gender}}</td>
+                            <td>{{i.address}}</td>
+                            <td>{{i.session_year_id.session_start}} -- {{i.session_year_id.session_end}}</td>
+                            {% comment %} <td>{{i.created_at}}</td>
+                            <td>{{i.updated_at}}</td> {% endcomment %}
+
+                            <td class="text-right">
+                               <div class="actions">
+                                  <a href="{% url "Edit_Student" i.id %}" class="btn btn-sm bg-success-light mr-2">
+                                  <i class="fas fa-pen"></i>
+                                  </a>
+                                  <a href="{% url "Delete_Student" i.admin.id %}" class="btn btn-sm bg-danger-light">
+                                  <i class="fas fa-trash"></i>
+                                  </a>
+                               </div>
+                            </td>
+                         </tr>
+                        {% endfor %}
+                      </tbody>
+                   </table>
+                   Page: {{page.number}}/{{page.paginator.num_pages}}
+                                       <nav aria-label="Page navigation example">
+                                          <ul class="pagination">
+                                            {% if page.has_previous %}
+                                                <li class="page-item"><a class="page-link" href="{% url 'View_Student'%}?page={{page.previous_page_number}} ">Previous</a></li>
+                                            {% endif %}
+                                                <li class="page-item "><a class="page-link" href="{% url 'View_Student'%}?page=1 ">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="{% url 'View_Student'%}?page=2 ">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="{% url 'View_Student'%}?page=3 ">3</a></li>
+                                            {% if page.number == 4 %}
+                                                <li class="page-item active"><a class="page-link" href="{% url 'View_Student'%}?page=page.number ">{{page.number}}</a></li>
+                                            {% endif %}
+                                            {% if page.number >= 5 %}
+                                                <li class="page-item"><a class="page-link">...</a></li>
+                                                <li class="page-item active"><a class="page-link" href="{% url 'View_Student'%}?page=page.number ">{{page.number}}</a></li>
+                                            {% endif %}
+                                            {% if page.has_next %}
+                                                <li class="page-item"><a class="page-link" href="{% url 'View_Student' %}?page={{page.next_page_number}}">Next</a></li>
+                                            {% endif %}
+                                                <li class="page-item"><input class="page-link" id="page_inp" style="width:70px" name="page_inp" type="number"></li>
+                                                <li class="page-item" ><button class="page-link" onClick="ShowPage()">Go</button></li>
+                                          </ul>
+
+                                        </nav>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+<script>
+      function ShowPage(){
+         let no = document.getElementById('page_inp').value;
+         if(no != 0){
+            window.location = "http://127.0.0.1:8000/Hod/Student/View?page=" + no;
+         }
+      }
+
+</script>
+{% endblock content %}

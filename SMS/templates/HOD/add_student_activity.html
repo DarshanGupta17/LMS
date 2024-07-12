@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" action="{% url 'save_student_activity' %}">
+    {% csrf_token %}
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="card">
+                  <div class="card-body">
+                        <div class="row">
+                           <div class="col-12">
+                               <h5 class="form-title"><span>Add Student Activity</span></h5>
+                               {% include "includes/messages.html" %}
+                           </div>
+                            <hr>
+                            
+                            <br><br>
+                            <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                           <label>Student List</label>
+                                 <select class="form-control" name="student_id">
+                                      {% for i in student %}
+                                      <option value="{{i.admin.id}}">ID{{i.id}}:  {{i.admin.first_name}} {{i.admin.last_name}}</option>
+                                      {% endfor %}
+                                </select>
+                            </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+     
+                                <label>Date of Event</label>
+                                      <input type="date" class="form-control" name="date_of_event">
+                                 </div>
+     
+                                 </div>
+
+                            <div class="col-12 col-sm-6">
+                           <div class="form-group">
+
+                           <label>Activity</label>
+                                 <input type="text" placeholder="Activity Student Participated In" class="form-control" name="activity">
+                            </div>
+
+                            </div>
+                            <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                                  <label>Medal Won</label>
+                                 <input type="text" class="form-control" placeholder="Gold / Silver / Bronze / None" name="medal">
+
+                            </div>
+                            </div>
+
+
+                           <br>
+                          <div class="col-10 mr-3">
+                              <button type="submit" class="btn btn-primary">Add Student Activity</button>
+                           </div>
+                        </div>
+                      <hr>
+                    </div>
+                  </div>
+               </div>
+         </div>
+</form>
+{% endblock content %}

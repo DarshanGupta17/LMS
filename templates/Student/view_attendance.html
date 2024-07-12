@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if action is None %}
+<div class="row">
+    <div class="col-sm-12">
+       <div class="card">
+          <div class="card-body">
+             <form method="post" action="?action=show_attendance">
+                {% csrf_token %}
+                   <div class="col-12">
+                      <h5 class="form-title"><span>View Attendance</span></h5>
+                      
+                   </div>
+                    {% comment %} {% include "includes/messages.html" %}   {% endcomment %}
+                   
+                   <div class="col-sm-11">
+                      <div class="form-group">
+                        <select class="form-control" name="subject_id" required>
+                            <option>Select Subject</option>
+                            {% for i in subject %}
+                              <option value="{{i.id}}">{{i.name}} --> by {{i.staff.admin.first_name}} {{i.staff.admin.last_name}}</option>
+                            {% endfor %}
+                         </select>
+                      </div>
+                   </div>
+                   
+                   <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Show</button>
+                   </div>
+             </form>
+          </div>
+       </div>
+    </div>
+</div>
+{% else %}
+
+<div class="row">
+    <div class="col-sm-12">
+       <div class="card">
+          <div class="card-body">
+             <form>
+                {% csrf_token %}
+                   <div class="col-12">
+                      <h5 class="form-title"><span>View Attendance</span></h5>
+                      
+                   </div>
+                    {% include "includes/messages.html" %}  
+                   
+                   <div class="col-sm-11">
+                      <div class="form-group">
+                        <select class="form-control" name="subject_id" disabled>
+                              <option value="{{i.id}}">{{get_subject}}</option>
+                         </select>
+                      </div>
+                   </div>
+                   
+                   <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-12">
+                           <div class="card card-table">
+                              <div class="card-body">
+                                 <div class="table-responsive">
+                                    <table id="" class="table table-hover table-center mb-0">
+                                       <thead>
+                                          <tr>
+                                             <th>ID</th>
+                                             <th>Name</th>
+                                             <th>Created_at</th>
+                                             <th class="text-right">Action</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                         {% for i in attendance_report %}
+                                          <tr>
+                                             <td>{{i.attendance_id.attendance_data}}</td>
+                                             <td>{{i.attendance_id.subject_id.name}}</td>
+                                             <td>{{i.attendance_id.session_year_id.session_start}} {{i.attendance_id.session_year_id.session_end}}</td>
+                                             
+                                          </tr>
+                                         {% endfor %}
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                   </div>
+             </form>
+          </div>
+       </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock content %}

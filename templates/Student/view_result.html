@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Results</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Results</li>
+             </ul>
+          </div>
+       </div>
+    </div>
+    {% comment %} {% include "includes/messages.html" %}   {% endcomment %}
+    <div class="row">
+       <div class="col-sm-12">
+          <div class="card card-table">
+             <div class="card-body">
+                <div class="table-responsive">
+                   <table id="" class="table table-hover table-center mb-0">
+                      <thead>
+                         <tr>
+                            <th>Name</th>
+                            <th>Subject Name</th>
+                            <th>Assignment_mark</th>
+                            <th>Exam_Mark</th>
+                            <th>Result</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in result %}
+                         <tr>
+                            <td>{{i.student_id.admin.first_name}} {{i.student_id.admin.last_name}}</td>
+                            <td>{{i.subject_id.name}}</td>
+                            <td>{{i.assignment_mark}} / 50</td>
+                            <td>{{i.exam_mark}} / 50</td>
+
+                            <td>
+                               {% if i.assignment_mark|add:i.exam_mark >= 50  %}
+                               <a href="" class='bg-success btn'>Pass</badge>
+                               {% else %}
+                               <a href="" class='bg-danger btn' disabled>Fail</badge>
+                               {% endif %}
+                            </td>
+                         </tr>
+                        {% endfor %}
+                      </tbody>
+                      
+                   </table>
+                   <p class='mt-4 badge badge-warning'>(Assignment_mark + Exam_mark >= 50 ---> Pass)</p>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+
+{% endblock content %}
